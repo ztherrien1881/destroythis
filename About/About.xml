@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Destroy This</name>
+  <author>Zach</author>
+  <packageId>Zach.DestroyThis</packageId>
+  <supportedVersions><li>1.6</li></supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+  <loadAfter><li>brrainz.harmony</li></loadAfter>
+  <description>Mark individual items for processing at an existing electric smelter without creating a bill. Material-producing smelting recipes are preferred, with destruction recipes used as a fallback.</description>
+</ModMetaData>
