@@ -9,10 +9,22 @@ namespace DestroyThis
     internal static class DestroyThisUtility
     {
         private const string ElectricSmelterDefName = "ElectricSmelter";
+        private const string DestroyDesignationDefName = "DestroyThis_Destroy";
+        private const string DestroyJobDefName = "DestroyThis_DestroyAtSmelter";
 
         internal static ThingDef ElectricSmelterDef
         {
             get { return DefDatabase<ThingDef>.GetNamedSilentFail(ElectricSmelterDefName); }
+        }
+
+        internal static DesignationDef DestroyDesignationDef
+        {
+            get { return DefDatabase<DesignationDef>.GetNamedSilentFail(DestroyDesignationDefName); }
+        }
+
+        internal static JobDef DestroyJobDef
+        {
+            get { return DefDatabase<JobDef>.GetNamedSilentFail(DestroyJobDefName); }
         }
 
         internal static bool IsQuestItem(Thing thing)
