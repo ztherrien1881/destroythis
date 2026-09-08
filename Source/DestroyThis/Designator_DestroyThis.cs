@@ -11,7 +11,7 @@ namespace DestroyThis
             DesignationDef def = DestroyThisUtility.DestroyDesignationDef;
             defaultLabel = def != null ? def.label : "Destroy this";
             defaultDesc = def != null ? def.description : "Designate an item for processing at an electric smelter.";
-            icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Designators/Deconstruct");
+            icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/DestroyThis");
             useMouseIcon = true;
             soundDragSustain = SoundDefOf.Designate_DragStandard;
             soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;

@@ -32,7 +32,7 @@ namespace DestroyThis
             {
                 defaultLabel = designation == null ? "DestroyThis.CommandLabel".Translate() : "DestroyThis.CancelCommandLabel".Translate(),
                 defaultDesc = designation == null ? "DestroyThis.CommandDesc".Translate() : "DestroyThis.CancelCommandDesc".Translate(),
-                icon = ContentFinder<Texture2D>.Get("UI/Designators/Deconstruct")
+                icon = ContentFinder<Texture2D>.Get("UI/Commands/DestroyThis")
             };
 
             command.action = delegate
