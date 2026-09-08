@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WorkGiverDef>
+    <defName>DestroyThis_DestroyDesignatedItem</defName>
+    <label>destroy designated items</label>
+    <giverClass>DestroyThis.WorkGiver_DestroyThis</giverClass>
+    <workType>Smithing</workType>
+    <priorityInType>95</priorityInType>
+    <verb>destroy</verb>
+    <gerund>destroying</gerund>
+    <scanThings>true</scanThings>
+    <scanCells>false</scanCells>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </WorkGiverDef>
+</Defs>
