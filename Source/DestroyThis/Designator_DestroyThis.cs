@@ -8,8 +8,9 @@ namespace DestroyThis
     {
         public Designator_DestroyThis()
         {
-            defaultLabel = DestroyThisDefOf.DestroyThis_Destroy.label;
-            defaultDesc = DestroyThisDefOf.DestroyThis_Destroy.description;
+            DesignationDef def = DestroyThisUtility.DestroyDesignationDef;
+            defaultLabel = def != null ? def.label : "Destroy this";
+            defaultDesc = def != null ? def.description : "Designate an item for processing at an electric smelter.";
             icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Designators/Deconstruct");
             useMouseIcon = true;
             soundDragSustain = SoundDefOf.Designate_DragStandard;
@@ -19,10 +20,13 @@ namespace DestroyThis
 
         public override AcceptanceReport CanDesignateThing(Thing thing)
         {
+            DesignationDef designationDef = DestroyThisUtility.DestroyDesignationDef;
+            if (designationDef == null) return false;
+
             if (thing == null || !thing.Spawned || thing.def.category != ThingCategory.Item)
                 return "DestroyThis.MustBeLooseItem".Translate();
 
-            if (thing.Map.designationManager.DesignationOn(thing, DestroyThisDefOf.DestroyThis_Destroy) != null)
+            if (thing.Map.designationManager.DesignationOn(thing, designationDef) != null)
                 return false;
 
             if (DestroyThisUtility.IsQuestItem(thing))
@@ -58,7 +62,9 @@ namespace DestroyThis
 
         public override void DesignateThing(Thing thing)
         {
-            thing.Map.designationManager.AddDesignation(new Designation(thing, DestroyThisDefOf.DestroyThis_Destroy));
+            DesignationDef designationDef = DestroyThisUtility.DestroyDesignationDef;
+            if (designationDef != null)
+                thing.Map.designationManager.AddDesignation(new Designation(thing, designationDef));
         }
     }
 }
