@@ -5,6 +5,6 @@
     <label>destroy this</label>
     <description>Designate individual items for destruction at an electric smelter. Only items accepted by an installed destruction recipe can be selected.</description>
     <targetType>Thing</targetType>
-    <texturePath>UI/Designators/Deconstruct</texturePath>
+    <texturePath>UI/Commands/DestroyThis</texturePath>
   </DesignationDef>
 </Defs>
