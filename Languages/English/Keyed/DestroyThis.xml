@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <DestroyThis.MustBeLooseItem>Only loose items can be designated.</DestroyThis.MustBeLooseItem>
+  <DestroyThis.QuestItem>Quest items cannot be designated.</DestroyThis.QuestItem>
+  <DestroyThis.Relic>Ideology relics cannot be designated.</DestroyThis.Relic>
+  <DestroyThis.NotDestroyable>No electric-smelter destruction recipe accepts this item.</DestroyThis.NotDestroyable>
+  <DestroyThis.NoSmelter>No usable electric smelter is available.</DestroyThis.NoSmelter>
+  <DestroyThis.CommandLabel>Destroy this</DestroyThis.CommandLabel>
+  <DestroyThis.CommandDesc>Mark this item for processing at an electric smelter.</DestroyThis.CommandDesc>
+  <DestroyThis.CancelCommandLabel>Cancel destroy this</DestroyThis.CancelCommandLabel>
+  <DestroyThis.CancelCommandDesc>Cancel this item's pending electric-smelter job.</DestroyThis.CancelCommandDesc>
+</LanguageData>
