@@ -13,8 +13,10 @@ namespace DestroyThis
 
         public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
         {
-            if (pawn == null || pawn.Map == null) return Enumerable.Empty<Thing>();
-            return pawn.Map.designationManager.SpawnedDesignationsOfDef(DestroyThisDefOf.DestroyThis_Destroy)
+            DesignationDef designationDef = DestroyThisUtility.DestroyDesignationDef;
+            if (pawn == null || pawn.Map == null || designationDef == null) return Enumerable.Empty<Thing>();
+
+            return pawn.Map.designationManager.SpawnedDesignationsOfDef(designationDef)
                 .Select(d => d.target.Thing).Where(t => t != null);
         }
 
@@ -33,9 +35,11 @@ namespace DestroyThis
 
         public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
         {
+            JobDef jobDef = DestroyThisUtility.DestroyJobDef;
             Building_WorkTable smelter = DestroyThisUtility.FindSmelter(pawn, thing);
-            if (smelter == null) return null;
-            Job job = JobMaker.MakeJob(DestroyThisDefOf.DestroyThis_DestroyAtSmelter, thing, smelter);
+            if (jobDef == null || smelter == null) return null;
+
+            Job job = JobMaker.MakeJob(jobDef, thing, smelter);
             job.count = thing.stackCount;
             return job;
         }
