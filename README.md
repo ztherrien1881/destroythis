@@ -37,6 +37,11 @@ Air conditioning research and Construction 4 unlock both buildings.
   blocked ports and no exhaust deleted into a wall. Heating follows the vanilla
   heater efficiency falloff. Heating does not extract outdoor heat in this draft.
 - Normal flick switch, electrical power loss and breakdown behavior.
+- Each unit caches its wall and port coordinates when spawned, including after
+  loading or reinstalling. A position/rotation change rebuilds the same lists on
+  the next update. Routine temperature checks reuse them without creating port
+  lists or side-loop arrays. Wall support, obstructions, room boundaries and
+  temperatures are still checked live; those changing values are not cached.
 - A removed supporting wall disables the unit. The draft leaves the unsupported
   unit in place so it can be deconstructed or its wall restored.
 - Original vector placeholder art is included alongside the game PNG textures.

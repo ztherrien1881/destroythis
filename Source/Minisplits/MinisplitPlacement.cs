@@ -56,22 +56,33 @@ namespace Minisplits
 
         public static AcceptanceReport CheckPorts(ThingDef def, IntVec3 center, Rot4 rotation, Map map)
         {
-            Room indoor = null;
-            Room outdoor = null;
-            foreach (bool exhaust in new[] { false, true })
-            {
-                Room first = null;
-                foreach (IntVec3 port in Ports(def, center, rotation, exhaust))
-                {
-                    if (!OpenPort(port, map)) return "Minisplits_Blocked".Translate();
-                    Room room = port.GetRoom(map);
-                    if (room == null || (first != null && first != room))
-                        return "Minisplits_SplitRoom".Translate();
-                    first = room;
-                }
-                if (exhaust) outdoor = first; else indoor = first;
-            }
+            // Placement previews may allocate; spawned units pass their cached cells instead.
+            return CheckPorts(Ports(def, center, rotation, false), Ports(def, center, rotation, true), map);
+        }
+
+        public static AcceptanceReport CheckPorts(List<IntVec3> indoorPorts, List<IntVec3> exhaustPorts, Map map)
+        {
+            AcceptanceReport indoorResult = CheckSide(indoorPorts, map, out Room indoor);
+            if (!indoorResult.Accepted) return indoorResult;
+            AcceptanceReport exhaustResult = CheckSide(exhaustPorts, map, out Room outdoor);
+            if (!exhaustResult.Accepted) return exhaustResult;
             if (indoor == outdoor) return "Minisplits_SameRoom".Translate();
+            return true;
+        }
+
+        private static AcceptanceReport CheckSide(List<IntVec3> ports, Map map, out Room first)
+        {
+            // Cache coordinates only. Re-read rooms and obstructions as the map changes.
+            first = null;
+            for (int i = 0; i < ports.Count; i++)
+            {
+                IntVec3 port = ports[i];
+                if (!OpenPort(port, map)) return "Minisplits_Blocked".Translate();
+                Room room = port.GetRoom(map);
+                if (room == null || (first != null && first != room))
+                    return "Minisplits_SplitRoom".Translate();
+                first = room;
+            }
             return true;
         }
     }
