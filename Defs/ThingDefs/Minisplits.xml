@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef Name="MinisplitsBase" ParentName="BuildingBase" Abstract="True">
+    <thingClass>Minisplits.Building_Minisplit</thingClass>
+    <category>Building</category>
+    <tickerType>Rare</tickerType>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>Standable</passability>
+    <fillPercent>0</fillPercent>
+    <clearBuildingArea>false</clearBuildingArea>
+    <rotatable>true</rotatable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Temperature</designationCategory>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <researchPrerequisites><li>AirConditioning</li></researchPrerequisites>
+    <thingCategories><li>BuildingsTemperature</li></thingCategories>
+    <building>
+      <isEdifice>false</isEdifice>
+      <canPlaceOverWall>true</canPlaceOverWall>
+      <isAttachment>true</isAttachment>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+    </building>
+    <placeWorkers><li>Minisplits.PlaceWorker_Minisplit</li></placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <comps>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Breakdownable" />
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="MinisplitsBase">
+    <defName>Minisplits_Small</defName>
+    <label>small minisplit</label>
+    <description>A compact electric minisplit mounted over an existing wall. Automatically heats or cools the room on its blue side to the target temperature. Cooling exhausts heat into the red side behind the wall. Both sides must remain clear. Uses 350 W while operating and 35 W on standby.</description>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Things/Building/Minisplits/Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <drawRotated>true</drawRotated>
+      <allowFlip>false</allowFlip>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>1800</WorkToBuild>
+      <Mass>15</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList><Steel>100</Steel><ComponentIndustrial>4</ComponentIndustrial></costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>350</basePowerConsumption>
+      </li>
+      <li Class="Minisplits.MinisplitProperties">
+        <energyPerSecond>-21</energyPerSecond>
+        <heatingEnergyPerSecond>21</heatingEnergyPerSecond>
+        <defaultTargetTemperature>21</defaultTargetTemperature>
+        <lowPowerConsumptionFactor>0.1</lowPowerConsumptionFactor>
+        <deadband>0.5</deadband>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="MinisplitsBase">
+    <defName>Minisplits_Large</defName>
+    <label>large minisplit</label>
+    <description>A larger electric minisplit mounted over two adjacent wall tiles. Automatically heats or cools the room on its blue side to the target temperature, with twice the small unit's capacity. Cooling exhausts heat into the red side behind the wall. Both sides must remain clear. Uses 700 W while operating and 70 W on standby.</description>
+    <size>(2,1)</size>
+    <graphicData>
+      <texPath>Things/Building/Minisplits/Large</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,1)</drawSize>
+      <drawRotated>true</drawRotated>
+      <allowFlip>false</allowFlip>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>28</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList><Steel>180</Steel><ComponentIndustrial>8</ComponentIndustrial></costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>700</basePowerConsumption>
+      </li>
+      <li Class="Minisplits.MinisplitProperties">
+        <energyPerSecond>-42</energyPerSecond>
+        <heatingEnergyPerSecond>42</heatingEnergyPerSecond>
+        <defaultTargetTemperature>21</defaultTargetTemperature>
+        <lowPowerConsumptionFactor>0.1</lowPowerConsumptionFactor>
+        <deadband>0.5</deadband>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

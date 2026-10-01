@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Destroy This</name>
+  <name>Minisplits</name>
   <author>Zach</author>
-  <packageId>Zach.DestroyThis</packageId>
+  <packageId>ztherrien1881.minisplits</packageId>
   <supportedVersions><li>1.6</li></supportedVersions>
-  <modDependencies>
-    <li>
-      <packageId>brrainz.harmony</packageId>
-      <displayName>Harmony</displayName>
-      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
-    </li>
-  </modDependencies>
-  <loadAfter><li>brrainz.harmony</li></loadAfter>
-  <description>Mark individual items for processing at an existing electric smelter without creating a bill. Material-producing smelting recipes are preferred, with destruction recipes used as a fallback.</description>
+  <description>Small and large wall-mounted electric minisplits automatically heat and cool a room. Mount them over an existing wall. Cooling exhausts heat behind the wall, and higher power consumption pays for the convenience. Prototype: source must be compiled before playing.</description>
 </ModMetaData>

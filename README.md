@@ -1,41 +1,105 @@
-# Destroy This
+# Minisplits
 
-RimWorld 1.6 quality-of-life mod for designating individual items to be destroyed or smelted at an existing electric smelter, without maintaining a bill.
+RimWorld 1.6 source prototype by Zach. Adds exactly two temperature buildings:
+small and large wall-mounted electric minisplits. No DLC or Harmony dependency.
 
-## Intended behavior
+**Status: uncompiled, not yet tested in RimWorld.** This branch is a standalone
+Minisplits mod. It is temporarily hosted in the `destroythis` repository because
+the connected GitHub tools cannot create repositories. The default branch is
+unmodified; this branch can later be copied to a dedicated Minisplits repository.
 
-- Adds **Destroy this** to the existing **Orders** Architect category; it does not create its own category.
-- Adds a **Destroy this** command directly to selected eligible items.
-- An already-designated item shows **Cancel destroy this** so the order can be removed from the selected item itself.
-- Accepts only loose map items accepted by a smelting or destruction recipe installed on `ElectricSmelter`.
-- Reads the smelter's live recipe filters, so modded items patched into those recipes work automatically.
-- Blocks quest-tagged items and Ideology relics.
-- Uses the Smithing work type and requires a powered, reachable electric smelter.
-- Prefers material-producing smelting recipes over pure destruction recipes.
-- Produces recipe outputs through `GenRecipe.MakeRecipeProducts`, so smeltable items return the same recipe-defined materials instead of simply vanishing.
-- Adds no workbench. Harmony is required for the selected-item command.
+## Design
 
-## Building
+| | Small | Large |
+|---|---:|---:|
+| Wall footprint | 1 x 1 | 2 x 1 |
+| Active power | 350 W | 700 W |
+| Standby power | 35 W | 70 W |
+| Cooling energy / second | 21 | 42 |
+| Heating energy / second | 21 | 42 |
+| Steel | 100 | 180 |
+| Components | 4 | 8 |
 
-On Windows, double-click `Build-Mod.bat` and follow the prompt. It automatically locates common Steam installations and uses the C# compiler included with .NET Framework.
+Numbers are initial balance proposals, not guaranteed room sizes. Room size,
+insulation, ambient temperature, open doors, and exhaust temperature affect output.
+Air conditioning research and Construction 4 unlock both buildings.
 
-Alternatively, build `Source/DestroyThis/DestroyThis.csproj` with `RimWorldManagedDir` set to RimWorld's `RimWorldWin64_Data/Managed` directory and `HarmonyDll` set to Harmony's `0Harmony.dll`:
+- Installs over completed walls without replacing them. The existing wall still
+  provides insulation, strength, and roof support. Supports constructed walls
+  marked place-overable by the game and smoothed rock walls; not doors or raw rock.
+- Blue placement outline: conditioned room. Red: cooling exhaust. Rotate before
+  placing to put the blue side indoors. Large units need two adjacent wall tiles
+  with both indoor ports in one room and both exhaust ports in one room/area.
+- One vanilla temperature setting defaults to 21 C. Automatic heat/cool selection
+  uses a +/- 0.5 C deadband, checked every 250 ticks. Target temperature is saved
+  by vanilla CompTempControl; operating mode is recalculated after loading.
+- Vanilla cooler efficiency curve and 1.25x heat exhaust model. No cooling through
+  blocked ports and no exhaust deleted into a wall. Heating follows the vanilla
+  heater efficiency falloff. Heating does not extract outdoor heat in this draft.
+- Normal flick switch, electrical power loss and breakdown behavior.
+- A removed supporting wall disables the unit. The draft leaves the unsupported
+  unit in place so it can be deconstructed or its wall restored.
+- Original vector placeholder art is included alongside the game PNG textures.
+
+## Build
+
+Install the .NET SDK (8 or newer). Supply your own legally installed RimWorld 1.6
+Managed folder. No game assemblies are committed. The project restores the .NET
+Framework reference pack from NuGet for cross-platform compilation.
+
+Windows PowerShell example (adjust the Steam path):
 
 ```powershell
-dotnet build -c Release -p:RimWorldManagedDir="C:\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed" -p:HarmonyDll="C:\path\to\0Harmony.dll"
+dotnet build Source/Minisplits/Minisplits.csproj -c Release "-p:RimWorldManagedDir=C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/Managed"
 ```
 
-The compiled DLL is written to `1.6/Assemblies/DestroyThis.dll`.
+macOS example (adjust the path to your installation):
 
-## Test checklist for this revision
+```sh
+dotnet build Source/Minisplits/Minisplits.csproj -c Release '-p:RimWorldManagedDir=/path/to/RimWorldMac.app/Contents/Resources/Data/Managed'
+```
 
-1. Start RimWorld with Core, Harmony, and Destroy This.
-2. Open **Architect -> Orders** and confirm **Destroy this** appears there with no separate Destroy This category.
-3. Select an eligible loose weapon/apparel item and confirm **Destroy this** appears in its selected-item commands.
-4. Click the selected-item command and confirm it changes to **Cancel destroy this**.
-5. Confirm a smith carries the exact designated item to a powered electric smelter.
-6. Smelt a recyclable weapon/apparel item and confirm the expected recipe materials are spawned near the smelter.
-7. Destroy a non-recyclable but destructible item and confirm it produces no materials, matching its normal destruction recipe.
-8. Confirm quest items and Ideology relics cannot be designated.
-9. Confirm a modded item accepted by the electric smelter can be designated.
-10. Save during hauling/smelting, reload, and confirm the job resolves safely.
+If your macOS installation uses a different bundle layout, locate
+`Assembly-CSharp.dll` and use its containing directory. Linux uses
+`RimWorldLinux_Data/Managed` inside the game installation.
+
+The build writes `1.6/Assemblies/Minisplits.dll`. Copy the whole mod directory
+to `RimWorld/Mods/Minisplits`, enable **Minisplits**, and restart the game.
+Downloading this source branch alone is not an install-ready release.
+
+## Checks and first playtest
+
+Run `python Tools/validate.py` for XML, texture, balance, class-name, and localization
+checks. It does not compile C# or simulate RimWorld.
+
+Before release, compile against RimWorld 1.6 and use a disposable dev-mode save:
+
+1. Check the startup log for XML errors, missing types, or texture errors.
+2. Construct both units on walls in all four rotations. Verify the walls remain
+   in place through blueprints, frames, completed construction and deconstruction.
+   Test constructed walls, smoothed rock, wall conduits, duplicate units, and doors.
+3. Heat a cold sealed room and cool a hot sealed room at 21 C; watch power draw
+   switch from active to standby. Change target and save/reload.
+4. Exhaust into another sealed room and confirm its temperature rises. Let it
+   overheat and compare cooling with a vanilla cooler under the same conditions.
+5. Block either side, remove one supporting wall, cause a breakdown, flick the
+   unit off, and disconnect power: conditioning must stop.
+6. Verify the large unit has double capacity, not double output per exhaust port.
+   Check ports on map edges and across room boundaries.
+7. Confirm insulation/roof support still comes from the wall and the attachment
+   does not interfere with rebuilding that wall or selecting the unit.
+
+Full mod-list compatibility, including Replace Stuff and other wall-attachment
+mods, remains untested. No combat behavior is changed, but CE compatibility has
+not yet been verified in game.
+
+## Implementation references
+
+API and temperature behavior were checked against the public decompiled game
+sources below. Custom implementation is in `Source/Minisplits`.
+
+- https://github.com/Chillu1/RimWorldDecompiled/blob/master/RimWorld/Building_Cooler.cs
+- https://github.com/Chillu1/RimWorldDecompiled/blob/master/RimWorld/Building_Heater.cs
+- https://github.com/Chillu1/RimWorldDecompiled/blob/master/RimWorld/Building_TempControl.cs
+- https://github.com/Chillu1/RimWorldDecompiled/blob/master/RimWorld/GenConstruct.cs
+- https://github.com/Chillu1/RimWorldDecompiled/blob/master/Verse/GenSpawn.cs

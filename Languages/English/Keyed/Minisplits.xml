@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Minisplits_Mode>Mode</Minisplits_Mode>
+  <Minisplits_Idle>Standby</Minisplits_Idle>
+  <Minisplits_Off>No power or switched off</Minisplits_Off>
+  <Minisplits_Cooling>Cooling</Minisplits_Cooling>
+  <Minisplits_Heating>Heating</Minisplits_Heating>
+  <Minisplits_NeedsWall>Requires an existing wall under every tile.</Minisplits_NeedsWall>
+  <Minisplits_Blocked>Room and exhaust sides must have clear space.</Minisplits_Blocked>
+  <Minisplits_SplitRoom>Each side must face one continuous room or outdoor area.</Minisplits_SplitRoom>
+  <Minisplits_SameRoom>Room and exhaust sides must face different rooms.</Minisplits_SameRoom>
+  <Minisplits_AlreadyMounted>A minisplit is already mounted here.</Minisplits_AlreadyMounted>
+</LanguageData>
